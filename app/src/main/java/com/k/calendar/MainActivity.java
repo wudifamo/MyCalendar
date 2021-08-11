@@ -30,6 +30,7 @@ import com.haibin.calendarview.Calendar;
 import com.haibin.calendarview.CalendarView;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -49,8 +50,10 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnCa
     private Context mContext = this;
     private int tvMargin, tvHeight;
     private List<CalendarData> yiList = new ArrayList<>();
+    private List<CalendarData> selectList = new ArrayList<>();
     private CalendarData calendarData;
     private String rs;
+    private Calendar startCalender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnCa
             Calendar calendar = getDayData(data);
             map.put(calendar.toString(), calendar);
         }
+        selectList.addAll(yiList);
         mCalendarView.setSchemeDate(map);
     }
 
@@ -140,9 +144,25 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnCa
 
     @Override
     public void onCalendarRangeSelect(com.haibin.calendarview.Calendar calendar, boolean isEnd) {
-        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd", Locale.CHINA);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
         String date = sdf.format(new Date(calendar.getTimeInMillis()));
-
+        if (isEnd) {
+            try {
+                selectList.clear();
+                long start = startCalender.getTimeInMillis();
+                long end = calendar.getTimeInMillis();
+                for (CalendarData calendarData : yiList) {
+                    Date yangli = sdf.parse(calendarData.getYangli());
+                    if (start <= yangli.getTime() && yangli.getTime() <= end) {
+                        selectList.add(calendarData);
+                    }
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        } else {
+            startCalender = calendar;
+        }
         CalendarData data = DatabaseUtil.queryByPrimaryKey("yangli", date, CalendarData.class);
         if (data != null) {
             updateYi(data.getYi());
@@ -279,8 +299,8 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnCa
                         c1.setVisibility(View.GONE);
                         c2.setVisibility(View.GONE);
                         c3.setVisibility(View.GONE);
-                        int r = new Random().nextInt(yiList.size());
-                        calendarData = yiList.get(r);
+                        int r = new Random().nextInt(selectList.size());
+                        calendarData = selectList.get(r);
                         rs = calendarData.getYangli();
 
                         ViewAnimator.animate(btnView)
