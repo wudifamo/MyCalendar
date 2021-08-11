@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".MainActivity">
+
+    <com.haibin.calendarview.CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:calendar_height="46dp"
+        app:calendar_padding="10dp"
+        app:current_month_lunar_text_color="#CFCFCF"
+        app:day_text_size="18sp"
+        app:layout_constraintTop_toBottomOf="@id/tv_month"
+        app:max_select_range="-1"
+        app:min_select_range="-1"
+        app:min_year="2004"
+        app:month_view="com.k.calendar.CustomMonthView"
+        app:month_view_show_mode="mode_only_current"
+        app:other_month_text_color="#e1e1e1"
+        app:select_mode="range_mode"
+        app:selected_text_color="#fff"
+        app:selected_theme_color="#EE7621"
+        app:week_background="#00000000"
+        app:week_text_color="#FFFFFF"
+        app:year_view_day_text_color="#333333"
+        app:year_view_day_text_size="9sp"
+        app:year_view_month_text_color="#ff0000"
+        app:year_view_month_text_size="20sp"
+        app:year_view_scheme_color="#f17706" />
+
+    <TextView
+        android:id="@+id/tv_month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/normal_margin"
+        android:layout_marginTop="10dp"
+        android:onClick="onClick"
+        android:text="7"
+        android:textColor="@color/primary_white"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_yi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="300dp"
+        android:text="宜"
+        android:textColor="@color/primary_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_ji"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/normal_margin"
+        android:layout_marginEnd="@dimen/normal_margin"
+        android:layout_marginBottom="50dp"
+        android:text="忌:"
+        android:textColor="@color/secondary_white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/yi_container"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="@dimen/normal_margin"
+        app:layout_constraintBottom_toBottomOf="@id/tv_yi"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_yi" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/luck_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent_bg"
+        android:visibility="invisible">
+
+        <FrameLayout
+            android:id="@+id/animation_heart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="300dp"
+            android:clickable="false" />
+
+        <!--        <com.k.calendar.WaveView-->
+        <!--            android:id="@+id/waveView"-->
+        <!--            android:layout_width="180dp"-->
+        <!--            android:visibility="invisible"-->
+        <!--            android:layout_height="180dp"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintHorizontal_bias="0.5"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+        <com.k.calendar.KLoadingView
+            android:id="@+id/loadingView"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <FrameLayout
+            android:id="@+id/flowerContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView style="@style/flower" />
+
+            <ImageView style="@style/flower" />
+
+            <ImageView style="@style/flower" />
+
+            <ImageView style="@style/flower" />
+
+            <ImageView style="@style/flower" />
+
+            <ImageView style="@style/flower" />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tv_random"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="123"
+            android:textColor="@color/primary_white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/circle1"
+            android:layout_width="@dimen/cat_circle"
+            android:layout_height="@dimen/cat_circle"
+            android:background="@drawable/circle_cat"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/btn"
+            app:layout_constraintLeft_toLeftOf="@id/btn"
+            app:layout_constraintRight_toRightOf="@id/btn"
+            app:layout_constraintTop_toTopOf="@id/btn" />
+
+        <View
+            android:id="@+id/circle2"
+            android:layout_width="@dimen/cat_circle"
+            android:layout_height="@dimen/cat_circle"
+            android:background="@drawable/circle_cat"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/btn"
+            app:layout_constraintLeft_toLeftOf="@id/btn"
+            app:layout_constraintRight_toRightOf="@id/btn"
+            app:layout_constraintTop_toTopOf="@id/btn" />
+
+        <View
+            android:id="@+id/circle3"
+            android:layout_width="@dimen/cat_circle"
+            android:layout_height="@dimen/cat_circle"
+            android:background="@drawable/circle_cat"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/btn"
+            app:layout_constraintLeft_toLeftOf="@id/btn"
+            app:layout_constraintRight_toRightOf="@id/btn"
+            app:layout_constraintTop_toTopOf="@id/btn" />
+
+        <com.lihang.ShadowLayout
+            android:id="@+id/btn"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="50dp"
+            android:visibility="invisible"
+            app:hl_cornerRadius="100dp"
+            app:hl_layoutBackground="@color/secondary_white"
+            app:hl_layoutBackground_true="#80FFCDD2"
+            app:hl_shadowColor="@color/cat_shadow"
+            app:hl_shadowLimit="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@mipmap/cat" />
+
+        </com.lihang.ShadowLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

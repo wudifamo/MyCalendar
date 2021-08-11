@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#d80a0a</color>
+    <color name="colorPrimaryDark">#d80a0a</color>
+    <color name="colorAccent">#FFC107</color>
+    <color name="primary_white">#FFFFFF</color>
+    <color name="secondary_white">#FFCDD2</color>
+    <color name="primary_black">#212121</color>
+    <color name="secondary_black">#757575</color>
+    <color name="transparent_bg">#CC000000</color>
+    <color name="cat_shadow">#FEFFCDD2</color>
+
+    <dimen name="normal_margin">25dp</dimen>
+</resources>
