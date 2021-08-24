@@ -44,7 +44,6 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements CalendarView.OnCalendarRangeSelectListener, CalendarView.OnMonthChangeListener, RequestListener {
     private CalendarView mCalendarView;
-    private TextView tvYi;
     private TextView tvJi, tvMonth;
     private FrameLayout yiContainer;
     private Context mContext = this;
@@ -58,11 +57,10 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnCa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStatusBarColor(this, ContextCompat.getColor(this, R.color.colorPrimary));
+        setStatusBarColor(this, Color.parseColor("#FFaf2500"));
         setContentView(R.layout.activity_main);
         tvMargin = CViewUtil.dp2px(mContext, 10);
         tvHeight = CViewUtil.dp2px(mContext, 32);
-        tvYi = findViewById(R.id.tv_yi);
         tvJi = findViewById(R.id.tv_ji);
         yiContainer = findViewById(R.id.yi_container);
         tvMonth = findViewById(R.id.tv_month);
@@ -94,6 +92,19 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnCa
         mCalendarView.setOnMonthChangeListener(this);
         mCalendarView.setRange(mCalendarView.getCurYear(), mCalendarView.getCurMonth(), mCalendarView.getCurDay(), mCalendarView.getCurYear() + 1, mCalendarView.getCurMonth(), mCalendarView.getCurDay());
         handleDays();
+        startMz();
+    }
+
+    private void startMz() {
+        ViewAnimator.animate(findViewById(R.id.btnMz)).rotationY(0, 180, -15, 15, 0).duration(2000)
+                .onStop(new AnimationListener.Stop() {
+                    @Override
+                    public void onStop() {
+                        startMz();
+                    }
+                })
+                .repeatCount(-1).startDelay(2000).start();
+
     }
 
     private Calendar getDayData(CalendarData data) {
@@ -168,15 +179,14 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnCa
             updateYi(data.getYi());
             tvJi.setText("忌: " + data.getJi());
         } else {
-            tvYi.setText("");
             tvJi.setText("");
         }
     }
 
     @Override
     public void onMonthChange(int year, int month) {
-        String str = month + "月 " + year;
-        tvMonth.setText(SpanUtil.sizeAndColorSpan(12, ContextCompat.getColor(this, R.color.secondary_white), str, year + ""));
+        String str = month + "月 ";
+        tvMonth.setText(SpanUtil.spanSize(12, str, year + ""));
         getData();
     }
 
@@ -185,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnCa
             return;
         }
         java.util.Calendar calendar = java.util.Calendar.getInstance();
-        calendar.add(java.util.Calendar.MONTH, 6);
+        calendar.add(java.util.Calendar.MONTH, 1);
         for (int i = 0; i < 100; i++) {
             HashMap<String, Object> map = new HashMap<>();
             map.put("key", "ed7ae112b9583c64cf417c67014fe1b2");
@@ -245,7 +255,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnCa
                         ViewAnimator.animate(textView).scale(0, 1).duration(300).decelerate().startDelay(i * 50).start();
                     } else {
                         textView = new TextView(mContext);
-                        textView.setTextColor(ContextCompat.getColor(mContext, R.color.primary_black));
+                        textView.setTextColor(Color.WHITE);
                         textView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.circle_pop));
                         textView.setGravity(Gravity.CENTER);
                         textView.setTextSize(12);
@@ -275,112 +285,117 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnCa
                 flower();
                 return;
             }
-
-            View luckView = findViewById(R.id.luck_view);
-            luckView.setVisibility(View.VISIBLE);
-            setStatusBarColor(this, ContextCompat.getColor(this, R.color.transparent_bg));
-            bubbleLayout = (ViewGroup) findViewById(R.id.animation_heart);
-//            WaveView waveView = findViewById(R.id.waveView);
-            KLoadingView loadingView = findViewById(R.id.loadingView);
-            View btnView = findViewById(R.id.btn);
-            View c1 = findViewById(R.id.circle1);
-            View c2 = findViewById(R.id.circle2);
-            View c3 = findViewById(R.id.circle3);
-            btnView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        ViewAnimator.animate(btnView)
-                                .scale(1, 1.5f)
-                                .decelerate()
-                                .duration(500)
-                                .start();
-                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                        c1.setVisibility(View.GONE);
-                        c2.setVisibility(View.GONE);
-                        c3.setVisibility(View.GONE);
-                        int r = new Random().nextInt(selectList.size());
-                        calendarData = selectList.get(r);
-                        rs = calendarData.getYangli();
-
-                        ViewAnimator.animate(btnView)
-                                .scale(1.5f, 0)
-                                .interpolator(new AnticipateInterpolator())
-                                .duration(500)
-                                .onStop(new AnimationListener.Stop() {
-                                    @Override
-                                    public void onStop() {
-                                        onBubble();
-//                                        waveView.setVisibility(View.VISIBLE);
-//                                        waveView.start();
-                                        loadingView.setVisibility(View.VISIBLE);
-                                        loadingView.start();
-                                        loadingView.postDelayed(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                loadingView.setVisibility(View.INVISIBLE);
-                                                flower();
-
-                                                TextView textView = findViewById(R.id.tv_random);
-                                                textView.setVisibility(View.VISIBLE);
-                                                textView.setText(rs);
-
-                                                ViewAnimator.animate(textView)
-                                                        .alpha(0, 1)
-                                                        .decelerate()
-                                                        .duration(2500)
-                                                        .start();
-
-                                                loadingView.postDelayed(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        String[] dd = calendarData.getYangli().split("-");
-                                                        mCalendarView.scrollToCalendar(Integer.parseInt(dd[0]), Integer.parseInt(dd[1]), Integer.parseInt(dd[2]));
-                                                        ViewAnimator.animate(luckView)
-                                                                .alpha(1, 0)
-                                                                .decelerate()
-                                                                .duration(1000)
-                                                                .start();
-                                                    }
-                                                }, 8000);
-
-                                            }
-                                        }, 5000);
-                                    }
-                                })
-                                .start();
-                    }
-                    return false;
-                }
-            });
-            ViewAnimator.animate(luckView)
-                    .translationY(-luckView.getHeight(), 0)
-                    .interpolator(new BounceInterpolator())
-                    .duration(1000)
+            ViewAnimator.animate(findViewById(R.id.btnLine)).dp().height(40,60,40)
                     .onStop(new AnimationListener.Stop() {
                         @Override
                         public void onStop() {
-                            ViewAnimator.animate(btnView)
-                                    .translationY(500, 0)
-                                    .interpolator(new OvershootInterpolator())
+                            View luckView = findViewById(R.id.luck_view);
+                            luckView.setVisibility(View.VISIBLE);
+                            setStatusBarColor(MainActivity.this, ContextCompat.getColor(mContext, R.color.transparent_bg));
+                            bubbleLayout = (ViewGroup) findViewById(R.id.animation_heart);
+//            WaveView waveView = findViewById(R.id.waveView);
+                            KLoadingView loadingView = findViewById(R.id.loadingView);
+                            View btnView = findViewById(R.id.btn);
+                            View c1 = findViewById(R.id.circle1);
+                            View c2 = findViewById(R.id.circle2);
+                            View c3 = findViewById(R.id.circle3);
+                            btnView.setOnTouchListener(new View.OnTouchListener() {
+                                @Override
+                                public boolean onTouch(View v, MotionEvent event) {
+                                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                                        ViewAnimator.animate(btnView)
+                                                .scale(1, 1.5f)
+                                                .decelerate()
+                                                .duration(500)
+                                                .start();
+                                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                                        c1.setVisibility(View.GONE);
+                                        c2.setVisibility(View.GONE);
+                                        c3.setVisibility(View.GONE);
+                                        int r = new Random().nextInt(selectList.size());
+                                        calendarData = selectList.get(r);
+                                        rs = calendarData.getYangli();
+
+                                        ViewAnimator.animate(btnView)
+                                                .scale(1.5f, 0)
+                                                .interpolator(new AnticipateInterpolator())
+                                                .duration(500)
+                                                .onStop(new AnimationListener.Stop() {
+                                                    @Override
+                                                    public void onStop() {
+                                                        onBubble();
+//                                        waveView.setVisibility(View.VISIBLE);
+//                                        waveView.start();
+                                                        loadingView.setVisibility(View.VISIBLE);
+                                                        loadingView.start();
+                                                        loadingView.postDelayed(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                loadingView.setVisibility(View.INVISIBLE);
+                                                                flower();
+
+                                                                TextView textView = findViewById(R.id.tv_random);
+                                                                textView.setVisibility(View.VISIBLE);
+                                                                textView.setText(rs);
+
+                                                                ViewAnimator.animate(textView)
+                                                                        .alpha(0, 1)
+                                                                        .decelerate()
+                                                                        .duration(2500)
+                                                                        .start();
+
+                                                                loadingView.postDelayed(new Runnable() {
+                                                                    @Override
+                                                                    public void run() {
+                                                                        String[] dd = calendarData.getYangli().split("-");
+                                                                        mCalendarView.scrollToCalendar(Integer.parseInt(dd[0]), Integer.parseInt(dd[1]), Integer.parseInt(dd[2]));
+                                                                        ViewAnimator.animate(luckView)
+                                                                                .alpha(1, 0)
+                                                                                .decelerate()
+                                                                                .duration(1000)
+                                                                                .start();
+                                                                    }
+                                                                }, 8000);
+
+                                                            }
+                                                        }, 5000);
+                                                    }
+                                                })
+                                                .start();
+                                    }
+                                    return false;
+                                }
+                            });
+                            ViewAnimator.animate(luckView)
+                                    .translationY(-luckView.getHeight(), 0)
+                                    .interpolator(new BounceInterpolator())
                                     .duration(1000)
                                     .onStop(new AnimationListener.Stop() {
                                         @Override
                                         public void onStop() {
-                                            c1.setVisibility(View.VISIBLE);
-                                            c2.setVisibility(View.VISIBLE);
-                                            c3.setVisibility(View.VISIBLE);
-                                            animateCircle(c1, 0);
-                                            animateCircle(c2, 1000);
-                                            animateCircle(c3, 2000);
+                                            ViewAnimator.animate(btnView)
+                                                    .translationY(500, 0)
+                                                    .interpolator(new OvershootInterpolator())
+                                                    .duration(1000)
+                                                    .onStop(new AnimationListener.Stop() {
+                                                        @Override
+                                                        public void onStop() {
+                                                            c1.setVisibility(View.VISIBLE);
+                                                            c2.setVisibility(View.VISIBLE);
+                                                            c3.setVisibility(View.VISIBLE);
+                                                            animateCircle(c1, 0);
+                                                            animateCircle(c2, 1000);
+                                                            animateCircle(c3, 2000);
+                                                        }
+                                                    })
+                                                    .start();
+                                            btnView.setVisibility(View.VISIBLE);
                                         }
                                     })
                                     .start();
-                            btnView.setVisibility(View.VISIBLE);
+                            luckView.setVisibility(View.VISIBLE);
                         }
-                    })
-                    .start();
-            luckView.setVisibility(View.VISIBLE);
+                    }).duration(1000).start();
         }
     }
 

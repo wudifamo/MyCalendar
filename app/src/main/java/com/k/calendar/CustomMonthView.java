@@ -61,6 +61,10 @@ public class CustomMonthView extends RangeMonthView {
         mTextPaint.setColor(0xffffffff);
         mTextPaint.setAntiAlias(true);
         mTextPaint.setFakeBoldText(true);
+        mCurMonthTextPaint.setFakeBoldText(false);
+        mOtherMonthTextPaint.setFakeBoldText(false);
+        mSchemeTextPaint.setFakeBoldText(false);
+        mSelectTextPaint.setFakeBoldText(false);
 
         mSolarTermTextPaint.setColor(0xff489dff);
         mSolarTermTextPaint.setAntiAlias(true);
@@ -75,7 +79,7 @@ public class CustomMonthView extends RangeMonthView {
 
         mCurrentDayPaint.setAntiAlias(true);
         mCurrentDayPaint.setStyle(Paint.Style.FILL);
-        mCurrentDayPaint.setColor(0xFFeaeaea);
+        mCurrentDayPaint.setColor(Color.parseColor("#F4938b"));
 
         mPointPaint.setAntiAlias(true);
         mPointPaint.setStyle(Paint.Style.FILL);
@@ -153,18 +157,19 @@ public class CustomMonthView extends RangeMonthView {
         }
 
         //当然可以换成其它对应的画笔就不麻烦，
+        mCurDayTextPaint.setColor(Color.WHITE);
         if (calendar.isWeekend() && calendar.isCurrentMonth()) {
-            mCurMonthTextPaint.setColor(0xFF489dff);
-            mCurMonthLunarTextPaint.setColor(0xFF489dff);
-            mSchemeTextPaint.setColor(0xFF489dff);
-            mSchemeLunarTextPaint.setColor(0xFF489dff);
-            mOtherMonthLunarTextPaint.setColor(0xFF489dff);
-            mOtherMonthTextPaint.setColor(0xFF489dff);
+            mCurMonthTextPaint.setColor(0xFFAF2500);
+            mCurMonthLunarTextPaint.setColor(0xFFAF2500);
+            mSchemeTextPaint.setColor(0xFFAF2500);
+            mSchemeLunarTextPaint.setColor(0xFFAF2500);
+            mOtherMonthLunarTextPaint.setColor(0xC89e93);
+            mOtherMonthTextPaint.setColor(0xC89e93);
         } else {
-            mCurMonthTextPaint.setColor(0xCCFFFFFF);
-            mCurMonthLunarTextPaint.setColor(0xffCFCFCF);
+            mCurMonthTextPaint.setColor(0xFF333333);
+            mCurMonthLunarTextPaint.setColor(0xFF333333);
             mSchemeTextPaint.setColor(mCurMonthTextPaint.getColor());
-            mSchemeLunarTextPaint.setColor(0xffCFCFCF);
+            mSchemeLunarTextPaint.setColor(mSchemeTextPaint.getColor());
 
             mOtherMonthTextPaint.setColor(0xFFe1e1e1);
             mOtherMonthLunarTextPaint.setColor(0xFFe1e1e1);

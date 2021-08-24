@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#d80a0a</color>
     <color name="colorPrimaryDark">#d80a0a</color>
-    <color name="colorAccent">#FFC107</color>
+    <color name="colorAccent">#FFC140</color>
     <color name="primary_white">#FFFFFF</color>
     <color name="secondary_white">#FFCDD2</color>
     <color name="primary_black">#212121</color>
@@ -10,5 +10,5 @@
     <color name="transparent_bg">#CC000000</color>
     <color name="cat_shadow">#FEFFCDD2</color>
 
-    <dimen name="normal_margin">25dp</dimen>
+    <dimen name="normal_margin">20dp</dimen>
 </resources>
